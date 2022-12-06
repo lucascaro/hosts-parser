@@ -3,21 +3,21 @@ extern crate lazy_static;
 extern crate regex;
 
 use regex::Regex;
-use std::fmt;
 use std::str::FromStr;
 use std::vec::Vec;
+use std::{error, fmt};
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct HostsFile {
     pub lines: Vec<HostsFileLine>,
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Default)]
 pub struct HostsFileLine {
-    is_empty: bool,
-    comment: Option<String>,
-    ip: Option<String>,
-    hosts: Option<Vec<String>>,
+    pub is_empty: bool,
+    pub comment: Option<String>,
+    pub ip: Option<String>,
+    pub hosts: Option<Vec<String>>,
 }
 
 impl fmt::Display for HostsFileLine {
@@ -144,6 +144,8 @@ impl fmt::Debug for ParseError {
     }
 }
 
+impl error::Error for ParseError {}
+
 impl FromStr for HostsFile {
     type Err = ParseError;
     fn from_str(s: &str) -> Result<HostsFile, Self::Err> {
@@ -151,6 +153,10 @@ impl FromStr for HostsFile {
     }
 }
 impl HostsFile {
+    pub fn new() -> HostsFile {
+        HostsFile { lines: Vec::new() }
+    }
+
     fn from_string(s: &str) -> Result<HostsFile, ParseError> {
         let lines: Vec<HostsFileLine> = s
             .lines()
