@@ -153,6 +153,10 @@ impl FromStr for HostsFile {
     }
 }
 impl HostsFile {
+    pub fn new() -> HostsFile {
+        HostsFile { lines: Vec::new() }
+    }
+
     fn from_string(s: &str) -> Result<HostsFile, ParseError> {
         let lines: Vec<HostsFileLine> = s
             .lines()
