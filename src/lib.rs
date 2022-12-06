@@ -3,9 +3,9 @@ extern crate lazy_static;
 extern crate regex;
 
 use regex::Regex;
-use std::fmt;
 use std::str::FromStr;
 use std::vec::Vec;
+use std::{error, fmt};
 
 #[derive(Debug, Eq, PartialEq)]
 pub struct HostsFile {
@@ -143,6 +143,8 @@ impl fmt::Debug for ParseError {
         write!(f, "{{ file: {}, line: {} }}", file!(), line!())
     }
 }
+
+impl error::Error for ParseError {}
 
 impl FromStr for HostsFile {
     type Err = ParseError;
