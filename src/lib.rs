@@ -12,12 +12,12 @@ pub struct HostsFile {
     pub lines: Vec<HostsFileLine>,
 }
 
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq, Default)]
 pub struct HostsFileLine {
-    is_empty: bool,
-    comment: Option<String>,
-    ip: Option<String>,
-    hosts: Option<Vec<String>>,
+    pub is_empty: bool,
+    pub comment: Option<String>,
+    pub ip: Option<String>,
+    pub hosts: Option<Vec<String>>,
 }
 
 impl fmt::Display for HostsFileLine {
